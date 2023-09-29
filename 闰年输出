@@ -1,0 +1,23 @@
+#include <stdio.h>
+int main()
+{
+	int x;
+	int y;
+	while(1)
+	{ 
+		printf("请输入年份区间\n");
+		scanf_s("%d%d", &x, &y);
+		int c = 0;
+		for (int year = x; year <= y; year++)
+		{
+			if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
+			{
+				printf("%-3d\t", year);
+				c++;
+			}
+		
+		}
+		printf("\n\nTotal=%d\n", c);
+		getchar();
+	}
+	return 0;
