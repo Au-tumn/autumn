@@ -1,0 +1,75 @@
+#include<stdio.h>
+//公元元1年1月1日为周一
+//普通年需是4的整数倍，世纪年需是400的整数倍
+static int year = 0;//全局变量year
+static int mon = 0;//全局变量mon
+static int day = 0;//全局变量day
+int RorP(int year)//闰年或者平年
+{
+	int a = 1;
+	if (( year % 4 ==0 && year % 100 != 0) || (0 == year % 400))
+	{
+		a = 0;//闰年
+	}
+	else
+		a = 1;//平年
+	return a;
+}
+int fun1(int mon)//月份对应天数
+{
+	if (RorP == 0)
+	{
+		int arrR[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+		return arrR[mon - 1];
+	}
+	else
+	{
+		int arrP[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+		return arrP[mon - 1];
+	}
+}
+int fun2(int year)//每年的1.1号是星期几
+{	
+	if (year == 1)
+		return 1;
+	int sum = 0;
+	for (int n = 0; n <= year; n++)//用for循环来遍历年份，判断平、闰年，sum为总天数，j、h为计数器,j为闰年，h为平年
+	{				
+		int j = 0, h = 0;
+		if (RorP(n) == 0)
+			j++;
+		else
+			h++;
+		sum = j * 366 + h * 365;	
+	}
+	return (sum + 1) % 7;//公元元年从星期1开始
+}
+int fun3(int mon)//每月的1号是星期几
+{
+	if (mon == 1)
+		return fun2(year);
+	else
+	{
+		int sum2 = 0;
+		for (int o = 0; o <= mon; o++)//循环遍历月份求和得总天数，%7后得到1号为周几？
+		{			
+			sum2 += fun1(o);		
+		}
+		return (sum2 + fun2(year)) % 7  ;
+	}
+	
+}
+int main()
+{
+	int firstweeofmon = 1;//公元元年从星期1开始
+	scanf("%d%d%d", &year, &mon, &day);
+	int firstdate;
+	firstdate = fun2(year);//每年的1.1为周几？
+	int monthdate = fun1(mon);//每个月的天数
+	firstweeofmon = fun3(mon);//mon的第一天是星期几？
+	//制表
+	printf("<%d年>------<%d月>-------<%d日>\n", year, mon, day);
+	printf("  日  一  二  三  四  五  六 \n");
+	
+
+}
